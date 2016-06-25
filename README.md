@@ -10,6 +10,8 @@ $ npm i remote-ws-wol
 var rww = require('remote-ws-wol');
 
     //Argument samples for rww. rwwの引数設定サンプル
+    * 引数はwebに公開される場所には置かないように注意しましょう
+    * Argument is let's be careful not place such as in a location that can be published to the web
 
     //WebSocketサーバーの設定
     var WebSocketServer = '192.168.1.22';
