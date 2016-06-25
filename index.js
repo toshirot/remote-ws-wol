@@ -15,57 +15,63 @@ var WsServer = require('ws').Server;
 /*=========================================================
  * rww 
  *
- * @param  {String} WebSocketServer
- * @param  {Int}    WebSocketServerPort
- * @param  {Object} WakeUpLists
- * @param  {Array}  allowIPLists
- * @param  {String} allowKeyword
- * @param  {Int}    timeout
- * @return {Object} WebSocket Object
+ * @param     {Object} option                 Options
+ *   @property  {String} [op.url='localhost']   WebSocketServer
+ *   @property  {Int}    [op.port=8503]         WebSocketServerPort
+ *   @property  {Object} op.lists               WakeUpLists
+ *   @property  {Array}  [op.allowIP=['*']]     allowIPLists
+ *   @property  {String} [op.keyword='*']       allowKeyword
+ *   @property  {Int}    [op.timeout=1000*60]   timeout
+ * @return    {Object} WebSocket  Object
  
  * 引数はwebに公開される場所には置かないように注意しましょう
  * Argument is let's be careful not place such as in a location that can be published to the web
 
     //Argument samples for rww. rwwの引数設定サンプル
 
-    //WebSocketサーバーの設定
-    var WebSocketServer = '192.168.1.22';
-    var WebSocketServerPort = 8503;
+  var op = {
+  
+    //WebSocketサーバー
+    url: '192.168.1.22'
+    ,port: 8503
 
-    //起こしたいマシンのIPとMacアドレスを調べて下記を書き換えてください
-    var WakeUpLists = {
+    //起動したいマシンのMacアドレスを調べて下記を書き換えてください
+    //名前はリモートから呼び出すための仮称でIPである必要はありません
+    ,lists: {
        '192.168.1.4': 'xx:xx:xx:xx:xx:xx'
-      ,'192.168.1.5': 'xx:xx:xx:xx:xx:xx'
-    };
+      ,'subPC'      : 'xx:xx:xx:xx:xx:xx'
+      ,'WiFi2'      : 'xx:xx:xx:xx:xx:xx'
+    } 
 
     //※必要ならIPやキーワードやSSL接続などで安全を確保すること
 
-    //接続を許可するIPアドレス
-    var allowIPLists = [
-       '*' //'*'は全部許可
-    ];
+    //接続を許可するクライアントIPアドレス
+    ,allowIP: ['*'] //'*'は全部許可
 
     //命令実行を許可するキーワード
-    var allowKeyword = "*";//'*'は全部許可
+    ,keyword: '*'//'*'は全部許可
     
     //WakeUpしたら最大1分で接続を切る
-    var timeout = 1000*60;
+    ,timeout: 1000*60
     
+  };
  */
 
-var conn = function( WebSocketServer, 
-                    WebSocketServerPort,
-                    WakeUpLists,
-                    allowIPLists,
-                    allowKeyword,
-                    timeout
-                    ){
+var conn = function( option ){
 
   /*=========================================================
    * WebSocket
    */
 
-
+  var WebSocketServer = option.url||'localhost';
+  var WebSocketServerPort = option.port||8503;
+  var WakeUpLists = option.lists;
+  var allowIPLists = option.allowIPs|| ['*'];
+  var allowKeyword = option.keyword || '*';
+  var timeout = option.timeout || 60000;//default 60sec
+  
+  if(!WakeUpLists)return;
+    
   //WebSocket Server
   var ws = new WsServer({
         host: WebSocketServer,
@@ -82,13 +88,13 @@ var conn = function( WebSocketServer,
     socket.on('message', function(msg) {
     
       var _msg ={};
-      //msg is JSON e.g. JSON.stringify({"ip":"192.168.1.4", "keyword": "myhoge"})
+      //msg is JSON e.g. JSON.stringify({"name":"192.168.1.4", "keyword": "myhoge"})
       var dataErr = false;
       try{
         _msg = JSON.parse(  msg );
-        var ip = _msg.ip;
+        var name = _msg.name;
         var keyword = _msg.keyword;
-        console.log(_msg, typeof _msg, "ip: ",_msg.ip, "keyword: ",_msg.keyword)
+        console.log(_msg, typeof _msg, "name: ",_msg.name, "keyword: ",_msg.keyword)
         
         if(socket.readyState===1){
           //ここでIP正規チェックもした方が良いかも
@@ -96,12 +102,12 @@ var conn = function( WebSocketServer,
           if(!allowKeywordChk(keyword)){ return }
 
           //WakeUp
-          if(WakeUpLists[ip]!==undefined){
-            wakeUp (socket, ip);//e.g.'192.168.1.4'
+          if(WakeUpLists[name]!==undefined){
+            wakeUp (socket, name);//e.g.'192.168.1.4'
             
-            //送信データフォーマット e.g. {ip: ip, msg: ip+ 'を起動しています。'}
-            socket.send(JSON.stringify({ip: ip, msg: ip+ 'を起動しています。'}));
-            console.log(ip, 'を起動しています');
+            //送信データフォーマット e.g. {name: name, msg: name+ 'を起動しています。'}
+            socket.send(JSON.stringify({name: name, msg: name+ 'を起動しています。'}));
+            console.log(name, 'を起動しています');
           }
         }
       
@@ -125,24 +131,23 @@ var conn = function( WebSocketServer,
    */
 
   //マジックパケット送信
-  function wakeUp (socket, ip){
-    var mac = WakeUpLists[ip];
+  function wakeUp (socket, name){
+    var mac = WakeUpLists[name];
     if(!mac){
-      console.log(ip + ' はリストにありません');
+      console.log(name + ' はリストにありません');
       return;
     }
-    console.log('処理中: ' + ip );
+    console.log('処理中: ' + name );
 
     wol.wake(mac, function(error) {
       if (error) {
         console.log(error);
       } else {
-        //送信データフォーマット e.g. {ip: ip, msg: ip+ 'へ起動命令を送りました。'}
-        socket.send(JSON.stringify({ip:ip, msg: ip + 'へ起動命令を送りました。'}));
+        //送信データフォーマット e.g. {name: name, msg: name+ 'へ起動命令を送りました。'}
+        socket.send(JSON.stringify({name:name, msg: name + 'へ起動命令を送りました。'}));
         //  socket.close();//接続終了
-        //console.log('処理終了: ' + ip + ': ' + mac);
-        
-        if(!timeout)timeout=60000;//60sec
+        //console.log('処理終了: ' + name + ': ' + mac);
+
         setTimeout(function(){ socket.close();},timeout)
       }
     });

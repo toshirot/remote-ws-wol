@@ -1,9 +1,9 @@
 {
-  "private": true,
+  "private": false,
 
   "name": "remote-ws-wol",
   "description": "To start the PC, for example, smartphone. Remote switch to Wake on LAN to a PC via WebSocket.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.js",
   "homepage": "http://ngw.jp/~tato/wp/?p=3826",
   "license": "MIT",
