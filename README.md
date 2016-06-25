@@ -12,6 +12,7 @@ $ npm i remote-ws-wol
 </pre></code>
 
 remote-ws-wol directory has been generated in node_modules.
+インストールするとYourDirより上の階層のnode_modulesにremote-ws-wolができています。
 <code><pre>node_modules/
     remote-ws-wol/
         node_modules/
@@ -24,7 +25,10 @@ remote-ws-wol directory has been generated in node_modules.
         package.json
 </pre></code>
 
-<h3>Server Setting</h3><code><pre>
+sampleディレクトリ内のファイルを使いたい場所において内容を下記のように自分用に書き換えます。
+app.jsはWebからアクセスできない場所に置き、wol.htmはWebからアクセスできる場所に置きます。
+
+<h3>Server Setting</h3>app.js<code><pre>
 var rww = require('remote-ws-wol');
 
 var option = {
@@ -58,7 +62,92 @@ var option = {
 var ws = rww.conn( option );
 </pre></code>
 
+<h3>Client</h3>wol.htm<code><pre>
+<html>
+<meta charset=utf-8>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+<title>
+remote-ws-wol
+</title>
+<style>
+body{
+  background-color: #fff;
+  color: #000;
+  font-family:'Lucida Grande','Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3',Meiryo, メイリオ, sans-serif;
+}
+.swt{
+  margin: 1%;
+  padding:48px 88px;
+  font-size:40px;
+  display: none;
+  color: #000;
+  background-color: #eee;
+  width: 98%;
+  
+}
+button{
+  border-radius: 2px;        /* CSS3草案 */  
+  -webkit-border-radius: 2px;    /* Safari,Google Chrome用 */  
+  -moz-border-radius: 2px;   /* Firefox用 */  
+}
+#info{
+  margin: 12px;
+  font-size:48px;
+}
+</style>
 
+<button id=on1 class="swt"> 192.168.1.4 </button>
+<button id=on2 class="swt"> subPC </button>
+
+<div id=info>status</div>
+<script>
+
+  //接続します
+  var ws = new WebSocket('ws://192.168.1.22:8503');
+  
+  //接続時の処理
+  ws.onopen = function () {
+    info.innerHTML='接続しました'
+    on1.style.display='block'
+    on2.style.display='block'
+  };
+  //エラー時の処理
+  ws.onerror = function (error) {
+    info.innerHTML='Error: '+ error
+  };
+  //クローズ時の処理
+  ws.onclose = function (error) {
+    info.innerHTML='切断しました';
+  };
+  //サーバーからメッセージ着信時の処理
+  ws.onmessage = function (e) {
+  
+    var data = JSON.parse(e.data);
+    info.innerHTML=data.msg;
+    
+    if(data.name==="192.168.1.4"){
+      on1.style.color = 'orange';
+    } else if(data.name==="subPC"){
+      on2.style.color = 'orange';
+    }
+    
+    setTimeout(function(){
+      on1.style.color =
+      on2.style.color = '#000';
+      
+    },2000)
+  };
+  
+  //クリック時の処理
+  on1.onclick=function(){
+    ws.send(JSON.stringify({"name":"192.168.1.4"}));
+  }
+  on2.onclick=function(){
+    ws.send(JSON.stringify({"name":"subPC"}));
+  }
+
+</script>
+</pre></code>
 <hr>
 <h3>License</h3>
 MIT
