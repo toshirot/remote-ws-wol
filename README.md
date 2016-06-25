@@ -1,6 +1,11 @@
 # remote-ws-wol
 To start the PC, for example, smartphone. Remote switch to Wake on LAN to a PC via WebSocket.
 
+@see 
+スマホでPC起動するリモコンをWebSocket+WOLで作ってみた
+http://ngw.jp/~tato/wp/?p=3826
+
+
 <hr>
 <h3>Install</h3><code><pre>$ cd ./YourDir
 $ npm i remote-ws-wol
