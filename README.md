@@ -5,7 +5,7 @@ To start the PC, for example, smartphone. Remote switch to Wake on LAN to a PC v
 スマホでPC起動するリモコンをWebSocket+WOLで作ってみた
 http://ngw.jp/~tato/wp/?p=3826
 
-https://www.youtube.com/watch?v=0X1Wc0BpuGM
+<iframe width="420" height="315" src="https://www.youtube.com/embed/0X1Wc0BpuGM" frameborder="0" allowfullscreen></iframe>
 
 <hr>
 <h3>Install</h3><code><pre>$ cd ./YourDir
