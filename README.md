@@ -15,7 +15,6 @@ remote-ws-wol directory has been generated in node_modules.
 インストールするとYourDirより上の階層のnode_modulesにremote-ws-wolができています。
 <code><pre>node_modules/
     remote-ws-wol/
-        node_modules/
         sample/
             app.js
             public_html/
@@ -23,6 +22,7 @@ remote-ws-wol directory has been generated in node_modules.
         README.md
         index.js
         package.json
+        node_modules/
 </pre></code>
 
 sampleディレクトリ内のファイルを使いたい場所において内容を下記のように自分用に書き換えます。
