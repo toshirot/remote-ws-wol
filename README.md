@@ -86,9 +86,9 @@ body{
   
 }
 button{
-  border-radius: 2px;        /* CSS3草案 */  
-  -webkit-border-radius: 2px;    /* Safari,Google Chrome用 */  
-  -moz-border-radius: 2px;   /* Firefox用 */  
+  border-radius: 2px;         /* CSS3 */  
+  -webkit-border-radius: 2px; /* for Safari, Chrome */  
+  -moz-border-radius: 2px;    /* for Firefox */  
 }
 #info{
   margin: 12px;
