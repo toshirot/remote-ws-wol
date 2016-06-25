@@ -63,13 +63,13 @@ var ws = rww.conn( option );
 </pre></code>
 
 <h3>Client</h3>wol.htm<code><pre>
-<html>
-<meta charset=utf-8>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-<title>
+&lt;html>
+&lt;meta charset=utf-8>
+&lt;meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+&lt;title>
 remote-ws-wol
-</title>
-<style>
+&lt;/title>
+&lt;style>
 body{
   background-color: #fff;
   color: #000;
@@ -94,13 +94,14 @@ button{
   margin: 12px;
   font-size:48px;
 }
-</style>
+&lt;/style>
+&lt;body>
 
-<button id=on1 class="swt"> 192.168.1.4 </button>
-<button id=on2 class="swt"> subPC </button>
+&lt;button id=on1 class="swt"> 192.168.1.4 &lt;/button>
+&lt;button id=on2 class="swt"> subPC &lt;/button>
 
-<div id=info>status</div>
-<script>
+&lt;div id=info>status&lt;/div>
+&lt;script>
 
   //接続します
   var ws = new WebSocket('ws://192.168.1.22:8503');
@@ -146,7 +147,9 @@ button{
     ws.send(JSON.stringify({"name":"subPC"}));
   }
 
-</script>
+&lt;/script>
+&lt;/body>
+&lt;/html>
 </pre></code>
 <hr>
 <h3>License</h3>
