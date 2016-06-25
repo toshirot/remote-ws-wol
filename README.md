@@ -11,6 +11,19 @@ http://ngw.jp/~tato/wp/?p=3826
 $ npm i remote-ws-wol
 </pre></code>
 
+remote-ws-wol directory has been generated in node_modules.
+<code><pre>node_modules/
+    remote-ws-wol/
+        node_modules/
+        sample/
+            app.js
+            public_html/
+                wol.htm
+        README.md
+        index.js
+        package.json
+</pre></code>
+
 <h3>Server Setting</h3><code><pre>
 var rww = require('remote-ws-wol');
 
