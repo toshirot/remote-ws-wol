@@ -2,16 +2,12 @@
 To start the PC, for example, smartphone. Remote switch to Wake on LAN to a PC via WebSocket.
 
 <hr>
-<h3>License</h3>
-
-<code><pre>$ cd ./YourDir
+<h3>Install</h3><code><pre>$ cd ./YourDir
 $ npm i remote-ws-wol
 </pre></code>
 
-
-<code><pre>
+<h3>Server Setting</h3><code><pre>
 var rww = require('remote-ws-wol');
-
 
     //Argument samples for rww. rwwの引数設定サンプル
 
@@ -37,7 +33,6 @@ var rww = require('remote-ws-wol');
     
     //WakeUpしたら最大1分で接続を切る
     var timeout = 1000*60;
-    
     
 var ws = rww.conn( WebSocketServer, 
                     WebSocketServerPort,
