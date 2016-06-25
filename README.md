@@ -28,7 +28,7 @@ remote-ws-wol directory has been generated in node_modules.
 sampleディレクトリ内のファイルを使いたい場所において内容を下記のように自分用に書き換えます。
 app.jsはWebからアクセスできない場所に置き、wol.htmはWebからアクセスできる場所に置きます。
 
-<h3>Server Setting</h3>app.js<code><pre>
+<h3>Server Setting Sample</h3>app.js<code><pre>
 var rww = require('remote-ws-wol');
 
 var option = {
@@ -62,7 +62,7 @@ var option = {
 var ws = rww.conn( option );
 </pre></code>
 
-<h3>Client</h3>wol.htm<code><pre>
+<h3>Client Sample</h3>wol.htm<code><pre>
 &lt;html>
 &lt;meta charset=utf-8>
 &lt;meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
