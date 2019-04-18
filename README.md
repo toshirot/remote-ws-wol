@@ -3,7 +3,7 @@ To start the PC, for example, smartphone. Remote switch to Wake on LAN to a PC v
 
 @see 
 スマホでPC起動するリモコンをWebSocket+WOLで作ってみた
-http://ngw.jp/~tato/wp/?p=3826
+https://web.archive.org/web/20160623215941/http://ngw.jp/~tato/wp/?p=3826
 
 [![スマホでPC起動するリモコンをWebSocket+WOLで作ってみた](http://img.youtube.com/vi/0X1Wc0BpuGM/0.jpg)](https://www.youtube.com/embed/0X1Wc0BpuGM)
 <br>※スマホの「192.168.1.4」のボタンを押すとPCのファンが回り始めます。
